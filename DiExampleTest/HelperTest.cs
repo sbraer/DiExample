@@ -7,7 +7,7 @@ namespace DiExampleTest
 	[TestClass]
 	public class HelperTest
 	{
-		private readonly Helper _helper;
+		private readonly IHelper _helper;
 		public HelperTest()
 		{
 			_helper = new Helper();

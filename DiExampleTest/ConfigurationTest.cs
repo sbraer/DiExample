@@ -6,6 +6,13 @@ namespace DiExampleTest
 	[TestClass]
 	public class ConfigurationTest
 	{
+		private readonly IConfiguration _conf;
+
+		public ConfigurationTest()
+		{
+			_conf = new Configuration(new Helper());
+		}
+
 		[DataTestMethod]
 		[DataRow("FileSourceWithPath", "myfile.txt")]
 		[DataRow("DbConnectionString", "connectionString")]
@@ -18,16 +25,14 @@ namespace DiExampleTest
 		[DataRow("SqlInsertString", "insert into [MyTable]([name],[date]) values(@name, @date)")]
 		public void TestAppConfigString(string propertyName, string value)
 		{
-			IConfiguration conf = new Configuration(new Helper());
-			Assert.AreEqual(value, conf.GetType().GetProperty(propertyName).GetValue(conf, null).ToString());
+			Assert.AreEqual(value, _conf.GetType().GetProperty(propertyName).GetValue(_conf, null).ToString());
 		}
 
 		[DataTestMethod]
 		[DataRow("SkipFirstLine", true)]
 		public void TestAppConfigBool(string propertyName, bool value)
 		{
-			IConfiguration conf = new Configuration(new Helper());
-			bool value2 = bool.Parse(conf.GetType().GetProperty(propertyName).GetValue(conf, null).ToString());
+			bool value2 = bool.Parse(_conf.GetType().GetProperty(propertyName).GetValue(_conf, null).ToString());
 			Assert.AreEqual(value2, value);
 		}
 
@@ -35,8 +40,7 @@ namespace DiExampleTest
 		[DataRow("RowsNumberBuffer", 1000)]
 		public void TestAppConfigInt(string propertyName, int value)
 		{
-			IConfiguration conf = new Configuration(new Helper());
-			int value2 = int.Parse(conf.GetType().GetProperty(propertyName).GetValue(conf, null).ToString());
+			int value2 = int.Parse(_conf.GetType().GetProperty(propertyName).GetValue(_conf, null).ToString());
 			Assert.AreEqual(value2, value);
 		}
 	}

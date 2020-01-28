@@ -17,6 +17,12 @@ namespace DiExampleTest
 	[TestClass]
 	public class FtpHelperTest
 	{
+		private readonly IFtpService _ftp;
+		public FtpHelperTest()
+		{
+			_ftp = new FtpService(new MyFtpService1(), new MyConfiguration1());
+		}
+
 		[TestInitialize]
 		public void StartEverySingleTest() { }
 
@@ -26,8 +32,7 @@ namespace DiExampleTest
 		[TestMethod]
 		public void DownloadFile()
 		{
-			var ftp = new FtpService(new MyFtpService1(), new MyConfiguration1());
-			ftp.DownloadFile("/filename.txt", "/local/filename.txt");
+			_ftp.DownloadFile("/filename.txt", "/local/filename.txt");
 		}
 
 		[TestMethod]
@@ -35,8 +40,7 @@ namespace DiExampleTest
 		{
 			try
 			{
-				var ftp = new FtpService(new MyFtpService1(), new MyConfiguration1());
-				ftp.DownloadFile("/filename2.txt", "/local/filename2.txt");
+				_ftp.DownloadFile("/filename2.txt", "/local/filename2.txt");
 				Assert.Fail("File was downloaded but must returns generic error");
 			}
 			catch (DiExample.FtpException ex)
@@ -48,10 +52,7 @@ namespace DiExampleTest
 		[TestMethod]
 		public void DisposeObject()
 		{
-			using (var ftp = new FtpService(new MyFtpService1(), new MyConfiguration1()))
-			{
-				ftp.DownloadFile("/filename.txt", "/local/filename.txt");
-			}
+			_ftp.DownloadFile("/filename.txt", "/local/filename.txt");
 		}
 	}
 
